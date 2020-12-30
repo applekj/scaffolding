@@ -3,12 +3,9 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    performance: {
-        hints: false
-    },
     mode: 'production',
     entry: {
-        vendor: ['react', 'react-dom', 'antd',]
+        vendor: ['react', 'react-dom'],
     },
     output: {
         filename: '[name].js',
@@ -17,7 +14,7 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin({
-            cleanAfterEveryBuildPatterns:['*.txt'] 
+            cleanAfterEveryBuildPatterns: ['*.txt']
         }),
         new webpack.DllPlugin({
             name: '[name]',

@@ -3,18 +3,21 @@ const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const TerserJSPlugin = require('terser-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 
 module.exports = {
     entry: './src/index.js',
     output: {
-        filename: '[name][fullhash:8].js',
+        filename: '[name][contenthash:8].js',
         path: path.resolve(__dirname, '../dist')
     },
     optimization: {
+        splitChunks: {
+            chunks: 'all',
+            maxSize: 244 * 1024
+        },
         minimizer: [
-            new TerserJSPlugin({}), //压缩js
+            `...`,
             new CssMinimizerPlugin() //压缩css
         ]
     },
@@ -30,6 +33,7 @@ module.exports = {
             },
             {
                 test: /\.less/,
+                exclude: path.resolve(__dirname, '../node_modules'),
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
@@ -44,14 +48,13 @@ module.exports = {
                     loader: 'url-loader',
                     options: {
                         limit: 8 * 1024,
-                        name: 'img/[name][fullhash:10].[ext]',
-                        // publicPath:'http://www.baidu.com'
-                        // outputPath:'img/'
+                        name: 'img/[name][contenthash0].[ext]',
                     }
                 }]
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
+                exclude: path.resolve(__dirname, '../node_modules'),
                 loader: 'file-loader',
                 options: {
                     name: "[name].[ext]",
@@ -83,7 +86,7 @@ module.exports = {
         new CleanWebpackPlugin({
             //打包前删除一次文件
             cleanOnceBeforeBuildPatterns: ['js', 'css', 'img', 'fonts', '*.txt', '*.html', '*.js', '*.css'],
-            cleanAfterEveryBuildPatterns: ['*.txt',]
+            cleanAfterEveryBuildPatterns: ['*.txt']
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../assets/index.html'),
@@ -94,8 +97,8 @@ module.exports = {
             }
         }),
         new MiniCssExtractPlugin({
-            filename: 'css/[name][fullhash:8].css',
-            chunkFilename: 'css/[id][fullhash:8].css',//异步加载的样式文件命名
+            filename: 'css/[name][contenthash:8].css',
+            chunkFilename: 'css/[id][contentHash:8].css',//异步加载的样式文件命名
             ignoreOrder: true //禁止顺序检查
         }),
         new webpack.ProvidePlugin({

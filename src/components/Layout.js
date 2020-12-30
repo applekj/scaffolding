@@ -18,7 +18,7 @@ export default class SiderDemo extends React.Component {
     };
 
     onCollapse = collapsed => {
-        console.log(collapsed);
+        // console.log('哈哈');
         this.setState({ collapsed });
     };
 
