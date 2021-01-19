@@ -11,6 +11,15 @@ module.exports = {
         filename: '[name][contenthash:8].js',
         path: path.resolve(__dirname, '../dist')
     },
+    resolve: {
+        alias: {
+            "@": `${path.resolve(__dirname, '../src')}`
+        },
+        extensions: ['.js', '.jsx'],
+        modules: [
+            path.resolve(__dirname, '../node_modules'),
+        ],
+    },
     optimization: {
         splitChunks: {
             chunks: 'all',

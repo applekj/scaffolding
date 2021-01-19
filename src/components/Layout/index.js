@@ -1,14 +1,10 @@
 import React from 'react'
 import { Layout, Menu, Breadcrumb } from 'antd';
-import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
-import './layout.less'
+import { DesktopOutlined, PieChartOutlined, FileOutlined, TeamOutlined, UserOutlined, } from '@ant-design/icons';
+import './index.less'
+import  routerConfig from '@/configs/router';
 
+const { routers } = routerConfig
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -18,7 +14,6 @@ export default class SiderDemo extends React.Component {
     };
 
     onCollapse = collapsed => {
-        // console.log('哈哈');
         this.setState({ collapsed });
     };
 
