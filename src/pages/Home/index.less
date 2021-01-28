@@ -1,0 +1,147 @@
+.dices{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-content: space-between;
+    div{
+        width: 200px;
+        height: 200px;
+        background-color: #323232;
+        border-radius: 10px;
+        display: flex;
+        .num{
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    }
+    .dice-2{
+        justify-content: center;
+    }
+    .dice-3{
+        justify-content: flex-end;
+    }
+    .dice-4{
+        justify-content: space-between;
+    }
+    .dice-5{
+        flex-flow: column nowrap;
+        justify-content: space-between;
+        align-items:flex-end;
+    }
+    .dice-6{
+        justify-content: space-between;
+        .num:nth-child(1){
+            align-self: flex-start;
+        }
+        .num:nth-child(2){
+            align-self: center;
+        }
+        .num:nth-child(3){
+            align-self: flex-end;
+        }
+    }
+    .dice-7{
+        flex-flow: column;
+        div:nth-child(1){
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        div:nth-child(2){
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div:nth-child(3){
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+    .dice-8{
+        align-items: center;
+    }
+    .dice-9{
+        align-items: center;
+        justify-content: center;
+    }
+    .dice-10{
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .dice-11{
+        flex-flow: column;
+        justify-content: space-between;
+    }
+    .dice-12{
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+    .dice-13{
+        flex-flow: column nowrap;
+        div:nth-child(1){
+            display: flex;
+            justify-content: space-between;
+        }
+        div:nth-child(2){
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+    }
+    .dice-14{
+        div:nth-child(1){
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: space-between;
+        }
+        div:nth-child(2){
+            display: flex;
+            flex-flow: column wrap;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+    }
+    .dice-15{
+        align-items: flex-end;
+    }
+    .dice-16{
+        align-items: flex-end;
+        justify-content: center;
+    }
+    .dice-17{
+        align-items: flex-end;
+        justify-content: flex-end;
+    }
+    .dice-18{
+        .num:nth-child(2){
+            align-self: center;
+        }
+    }
+    .dice-19{
+        justify-content: space-between;
+        .num:nth-child(2){
+            align-self: center;
+        }
+    }
+    .dice-20{
+        justify-content: space-between;
+        .num:nth-child(2){
+            align-self: flex-end;
+        }
+    }
+    .dice-21{
+        flex-flow: column nowrap;
+        div:nth-child(1){
+            justify-content: space-between;
+        }
+        div:nth-child(2){
+            justify-content: center;
+        }
+        div:nth-child(3){
+            justify-content: space-between;
+        }
+    }
+}

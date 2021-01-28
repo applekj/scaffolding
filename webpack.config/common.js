@@ -8,7 +8,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 module.exports = {
     entry: './src/index.js',
     output: {
-        filename: '[name][contenthash:8].js',
+        filename: '[name][fullhash:8].js',
         path: path.resolve(__dirname, '../dist')
     },
     resolve: {
@@ -23,7 +23,8 @@ module.exports = {
     optimization: {
         splitChunks: {
             chunks: 'all',
-            maxSize: 244 * 1024
+            maxSize: 244 * 1024,
+            maxInitialRequests: 5
         },
         minimizer: [
             `...`,
@@ -33,20 +34,25 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.css/,
-                use: [
-                    MiniCssExtractPlugin.loader,//自带样式hmr
-                    'css-loader',
-                    'postcss-loader'
-                ]
-            },
-            {
-                test: /\.less/,
-                exclude: path.resolve(__dirname, '../node_modules'),
+                test: /\.(le|c)ss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
-                    'postcss-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    require('autoprefixer'),
+                                    // require('postcss-pxtorem')({
+                                    //     rootValue: 18.75,
+                                    //     unitPrecision: 5,
+                                    //     propList: ['*']
+                                    // })
+                                ]
+                            }
+                        }
+                    },
                     'less-loader'
                 ]
             },
@@ -57,7 +63,7 @@ module.exports = {
                     loader: 'url-loader',
                     options: {
                         limit: 8 * 1024,
-                        name: 'img/[name][contenthash0].[ext]',
+                        name: 'img/[name][fullhash:8].[ext]',
                     }
                 }]
             },
@@ -80,6 +86,7 @@ module.exports = {
                         plugins: [
                             ["@babel/plugin-proposal-decorators", { "legacy": true }], //支持es6的修饰符
                             ["@babel/plugin-proposal-class-properties", { "loose": true }], //支持es6的clsss写法
+                            ["@babel/plugin-transform-runtime"],
                             ['import', {
                                 "libraryName": "antd",
                                 "libraryDirectory": "es",
@@ -106,15 +113,15 @@ module.exports = {
             }
         }),
         new MiniCssExtractPlugin({
-            filename: 'css/[name][contenthash:8].css',
-            chunkFilename: 'css/[id][contentHash:8].css',//异步加载的样式文件命名
+            filename: 'css/[name].css',
+            chunkFilename: 'css/[id][fullhash:8].css',//异步加载的样式文件命名
             ignoreOrder: true //禁止顺序检查
         }),
-        new webpack.ProvidePlugin({
-            _: 'lodash'//给每个模块注入lodash,输出_
-        }),
-        new webpack.DllReferencePlugin({
-            manifest: path.resolve(__dirname, '../dist/dll/manifest.json')
-        }),
+        // new webpack.ProvidePlugin({
+        //     _: 'lodash'//给每个模块注入lodash,输出_
+        // }),
+        // new webpack.DllReferencePlugin({
+        //     manifest: path.resolve(__dirname, '../dist/dll/manifest.json')
+        // }),
     ]
 }
