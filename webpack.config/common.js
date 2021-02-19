@@ -13,9 +13,9 @@ module.exports = {
     },
     resolve: {
         alias: {
-            "@": `${path.resolve(__dirname, '../src')}`
+            "@": `${path.resolve(__dirname, '../')}`
         },
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx','.less','.css'],
         modules: [
             path.resolve(__dirname, '../node_modules'),
         ],
@@ -44,11 +44,6 @@ module.exports = {
                             postcssOptions: {
                                 plugins: [
                                     require('autoprefixer'),
-                                    // require('postcss-pxtorem')({
-                                    //     rootValue: 18.75,
-                                    //     unitPrecision: 5,
-                                    //     propList: ['*']
-                                    // })
                                 ]
                             }
                         }
@@ -58,7 +53,6 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif)$/,
-                exclude: path.resolve(__dirname, '../node_modules'),
                 use: [{
                     loader: 'url-loader',
                     options: {
@@ -69,7 +63,6 @@ module.exports = {
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
-                exclude: path.resolve(__dirname, '../node_modules'),
                 loader: 'file-loader',
                 options: {
                     name: "[name].[ext]",
@@ -78,7 +71,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                include: path.resolve(__dirname, '../src'),
+                exclude:path.resolve(__dirname,'../node_modules'),
                 use: [{
                     loader: 'babel-loader',
                     options: {
@@ -107,6 +100,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../assets/index.html'),
             title: '福禄网络',
+            favicon:path.resolve(__dirname,'../assets/images/favicon.ico'),
             minify: {
                 removeAttributeQuotes: true,//移除属性的双引号(有的属性有逗号，不能完全删除)
                 collapseWhitespace: true //折叠成一行
@@ -117,9 +111,9 @@ module.exports = {
             chunkFilename: 'css/[id][fullhash:8].css',//异步加载的样式文件命名
             ignoreOrder: true //禁止顺序检查
         }),
-        // new webpack.ProvidePlugin({
-        //     _: 'lodash'//给每个模块注入lodash,输出_
-        // }),
+        new webpack.ProvidePlugin({
+            _: 'lodash'//给每个模块注入lodash,输出_
+        }),
         // new webpack.DllReferencePlugin({
         //     manifest: path.resolve(__dirname, '../dist/dll/manifest.json')
         // }),

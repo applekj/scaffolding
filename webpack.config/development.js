@@ -6,7 +6,7 @@ const webpack = require('webpack')
 
 module.exports = merge(common, {
     mode: 'development',
-    devtool: 'eval-source-map',
+    devtool: 'inline-source-map',
     devServer: {
         host: ip.address(),//获取当前项目的ip地址
         port: 3000,
@@ -20,6 +20,8 @@ module.exports = merge(common, {
         before: app => {
             app.get('/api/address', (req, res) => {
                 setTimeout(() => {
+                    // res.writeHead(500);
+                    // res.end()
                     res.json([
                         {
                             key: '1',
@@ -34,6 +36,15 @@ module.exports = merge(common, {
                             address: '西湖区湖底公园1号',
                         },
                     ])
+                }, 2000);
+            })
+            app.get('/api/login', (req, res) => {
+                setTimeout(() => {
+                    res.json({
+                        code:0,
+                        data:null,
+                        message:'登录成功'
+                    })
                 }, 2000);
             })
         }

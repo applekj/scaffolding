@@ -30,6 +30,9 @@ import './index.less'
 // console.log($)
 
 export default class Home extends Component {
+    constructor(props){
+        super(props)
+    }
     render() {
         return (
             <div style={{ padding: '20px 20px 0' }}>
