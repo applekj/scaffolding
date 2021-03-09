@@ -13,7 +13,8 @@ module.exports = {
     },
     resolve: {
         alias: {
-            "@": `${path.resolve(__dirname, '../')}`
+            "@": `${path.resolve(__dirname, '../')}`,
+            "createState":`${path.resolve(__dirname,'../src/common/createState')}`
         },
         extensions: ['.js', '.jsx','.less','.css'],
         modules: [

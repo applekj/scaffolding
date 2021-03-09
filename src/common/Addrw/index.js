@@ -4,6 +4,7 @@ import routerConfig from '@/project.config/router'
 import { PieChartOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, withRouter } from "react-router-dom";
 import './index.less'
+import State from 'createState'
 
 const { routers } = routerConfig
 const { Header, Content, Footer, Sider } = Layout
@@ -46,7 +47,9 @@ const AddRW = WrapComponent => () => {
                 </Sider>
                 <Layout className="site-layout" style={{ position: 'relative' }}>
                     <Header className="site-layout-background" style={{ padding: 0 }} />
-                    <WrapComponent {...props} />
+                    <State.Provider>
+                        <WrapComponent {...props}  />
+                    </State.Provider>
                     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
                 </Layout>
             </Layout>

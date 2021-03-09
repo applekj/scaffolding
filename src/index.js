@@ -4,15 +4,20 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Addrw from '@/src/common/Addrw'
 import demand from '@/src/common/DemandLoadComponent'
 
-const ProjectRouter = (props) => {
+const ProjectRouter = () => {
     const Home = demand(() => import('./pages/Home'))
     const TextContext = demand(() => import('./pages/TestContext'))
     const UseReducer = demand(() => import('./pages/UseReducer'))
+    const DataManager = demand(() => import('./pages/DataManager'))
+    const Css = demand(() => import('./pages/Css'))
+
     return (
         <>
             <Route path='/' exact component={Home} />
             <Route path='/context' exact component={TextContext} />
             <Route path='/useReducer' exact component={UseReducer} />
+            <Route path='/dataManager' exact component={DataManager} />
+            <Route path='/css' exact component={Css} />
         </>
     )
 }

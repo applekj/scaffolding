@@ -14,16 +14,4 @@ const TestContext = props => {
     )
 }
 
-// class App extends React.Component {
-//     render() {
-//         return (
-//             <div style={{ padding: '20px 20px 0' }}>
-//                 <Provider value={{ theme: 'first value' }}>
-//                     <Toolbar />
-//                 </Provider>
-//             </div>
-//         )
-//     }
-// }
-
 export default TestContext

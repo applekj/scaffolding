@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 
-const asyncComponent = importComponent => (props) => {
+const asyncComponent = (importComponent) => (props) => {
     const [C, setC] = useState(null)
     const getC = async () => {
         const { default: component } = await importComponent()
@@ -10,7 +10,7 @@ const asyncComponent = importComponent => (props) => {
         getC()
     })
     if (C) {
-        return <C {...props}/>
+        return <C {...props} />
     } else {
         return null
     }

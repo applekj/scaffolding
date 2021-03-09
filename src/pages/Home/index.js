@@ -1,34 +1,6 @@
 import React, { Component } from 'react';
 import './index.less'
 
-// import arr2tree from '@abala/arr2tree'
-
-// const array = [
-//     {
-//         id: 'parent-1',
-//         value: '水果',
-//     },
-//     {
-//         id: 'children-1',
-//         value: '橘子',
-//         parentId: 'parent-1'
-//     },
-//     {
-//         id: 'children-2',
-//         value: '苹果',
-//         parentId: 'parent-1'
-//     },
-//     {
-//         id: 'children-3',
-//         value: '香蕉',
-//         parentId: 'parent-1'
-//     },
-// ]
-// console.log(arr2tree(array))
-
-// import $ from 'jquery'
-// console.log($)
-
 export default class Home extends Component {
     constructor(props){
         super(props)
