@@ -40,14 +40,18 @@ const conditions = [
 const DataManager = props => {
     const [form] = Form.useForm()
     const [btnLoading, setBtnLoading] = useState(false)
-    const { state, setState } = createState.useContainer()
+    const { state, dispatch } = createState.useContainer()
 
     const getData = async params => {
         try {
             const {data,...other} = await axios.post('/api/getChartData', params)
             if(data){
                 setBtnLoading(false)
-                setState({chartData:data.data})
+                dispatch({
+                    type:'add',
+                    payload: { chartData: data.data }
+                })
+                // setState({chartData:data.data})
             }
         } catch (error) {
             console.log(error)

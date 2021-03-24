@@ -3,7 +3,7 @@ import { Chart, Interval, Tooltip, Axis, Coordinate } from 'bizcharts';
 import createState from 'createState'
 
 function Labelline(props) {
-    const { state, setState } = createState.useContainer()
+    const { state, dispatch } = createState.useContainer()
     const { chartData = [] } = state
 
     return (

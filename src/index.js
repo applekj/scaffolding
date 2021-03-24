@@ -10,6 +10,8 @@ const ProjectRouter = () => {
     const UseReducer = demand(() => import('./pages/UseReducer'))
     const DataManager = demand(() => import('./pages/DataManager'))
     const Css = demand(() => import('./pages/Css'))
+    const Antwocode = demand(() => import('./pages/Antwocode'))
+    const ReduxSagaTheory = demand(() => import('./pages/ReduxSagaTheory'))
 
     return (
         <>
@@ -18,6 +20,8 @@ const ProjectRouter = () => {
             <Route path='/useReducer' exact component={UseReducer} />
             <Route path='/dataManager' exact component={DataManager} />
             <Route path='/css' exact component={Css} />
+            <Route path='/antwocode' exact component={Antwocode} />
+            <Route path='/reduxsaga' exact component={ReduxSagaTheory} />
         </>
     )
 }

@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.js',
@@ -14,9 +15,9 @@ module.exports = {
     resolve: {
         alias: {
             "@": `${path.resolve(__dirname, '../')}`,
-            "createState":`${path.resolve(__dirname,'../src/common/createState')}`
+            "createState": `${path.resolve(__dirname, '../src/common/createState')}`
         },
-        extensions: ['.js', '.jsx','.less','.css'],
+        extensions: ['.js', '.jsx', '.less', '.css'],
         modules: [
             path.resolve(__dirname, '../node_modules'),
         ],
@@ -72,7 +73,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude:path.resolve(__dirname,'../node_modules'),
+                exclude: path.resolve(__dirname, '../node_modules'),
                 use: [{
                     loader: 'babel-loader',
                     options: {
@@ -101,7 +102,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../assets/index.html'),
             title: '福禄网络',
-            favicon:path.resolve(__dirname,'../assets/images/favicon.ico'),
+            favicon: path.resolve(__dirname, '../assets/images/favicon.ico'),
             minify: {
                 removeAttributeQuotes: true,//移除属性的双引号(有的属性有逗号，不能完全删除)
                 collapseWhitespace: true //折叠成一行
@@ -114,6 +115,14 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             _: 'lodash'//给每个模块注入lodash,输出_
+        }),
+        new CopyPlugin({
+            patterns:[
+                {
+                    from: path.resolve(__dirname, '../project.config/reqrcode.js'),
+                    to: path.resolve(__dirname, '../dist'),
+                }
+            ]
         }),
         // new webpack.DllReferencePlugin({
         //     manifest: path.resolve(__dirname, '../dist/dll/manifest.json')

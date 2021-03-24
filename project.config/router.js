@@ -20,6 +20,10 @@ export default {
                     router: '/dataManager',
                     name: '数据状态管理'
                 },
+                {
+                    router: '/reduxsaga',
+                    name: 'redux-saga原理'
+                }
             ]
         },
         {
@@ -29,6 +33,10 @@ export default {
                 {
                     router: '/css',
                     name: 'css类'
+                },
+                {
+                    router:'/antwocode',
+                    name:'解析二维码'
                 },
             ]
         },
