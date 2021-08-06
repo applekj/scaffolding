@@ -3,24 +3,10 @@ const webpack = require('webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
-    output: {
-        filename: '[name][fullhash:8].js',
-        path: path.resolve(__dirname, '../dist')
-    },
-    resolve: {
-        alias: {
-            "@": `${path.resolve(__dirname, '../')}`,
-            "createState": `${path.resolve(__dirname, '../src/common/createState')}`
-        },
-        extensions: ['.js', '.jsx', '.less', '.css'],
-        modules: [
-            path.resolve(__dirname, '../node_modules'),
-        ],
+    performance: {
+        maxEntrypointSize: 400000 //设置入口文件最大400kb
     },
     optimization: {
         splitChunks: {
@@ -28,15 +14,34 @@ module.exports = {
             maxSize: 244 * 1024,
             maxInitialRequests: 5
         },
-        minimizer: [
-            `...`,
-            new CssMinimizerPlugin() //压缩css
-        ]
+    },
+    // externals: { // 定义外部依赖，避免把react和react-dom打包进去
+    //     "bizcharts": "BizCharts",
+    //     // 以下配置为BizCharts依赖的第三方库，需要同时提供
+    //     "react": "React",
+    //     "react-dom": "ReactDOM",
+    // },
+    entry: './src/index.js',
+    output: {
+        filename: '[name][contenthash:8].js',
+        path: path.resolve(__dirname,'../dist'),
+    },
+    resolve: {
+        alias: {
+            "@": `${path.resolve(__dirname, '../')}`,
+        },
+        extensions: ['.js', '.jsx', '.scss', '.css'],
+        modules: [
+            path.resolve(__dirname, '../node_modules'),
+        ],
+        fallback: {
+            "crypto": false
+        }
     },
     module: {
         rules: [
             {
-                test: /\.(le|c)ss$/,
+                test: /\.(sc|c)ss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',
@@ -50,7 +55,7 @@ module.exports = {
                             }
                         }
                     },
-                    'less-loader'
+                    'sass-loader'
                 ]
             },
             {
@@ -59,7 +64,7 @@ module.exports = {
                     loader: 'url-loader',
                     options: {
                         limit: 8 * 1024,
-                        name: 'img/[name][fullhash:8].[ext]',
+                        name: 'img/[name][contenthash:8].[ext]',
                     }
                 }]
             },
@@ -72,13 +77,15 @@ module.exports = {
                 }
             },
             {
-                test: /\.js$/,
+                test: /\.j(s|sx)$/,
                 exclude: path.resolve(__dirname, '../node_modules'),
                 use: [{
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env', '@babel/preset-react'],
                         plugins: [
+                            ["@babel/plugin-proposal-private-property-in-object", { "loose": true }],
+                            ["@babel/plugin-proposal-private-methods", { "loose": true }],
                             ["@babel/plugin-proposal-decorators", { "legacy": true }], //支持es6的修饰符
                             ["@babel/plugin-proposal-class-properties", { "loose": true }], //支持es6的clsss写法
                             ["@babel/plugin-transform-runtime"],
@@ -96,12 +103,12 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin({
             //打包前删除一次文件
-            cleanOnceBeforeBuildPatterns: ['js', 'css', 'img', 'fonts', '*.txt', '*.html', '*.js', '*.css'],
+            cleanOnceBeforeBuildPatterns: ['**/*'],
             cleanAfterEveryBuildPatterns: ['*.txt']
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../assets/index.html'),
-            title: '福禄网络',
+            title: '脚手架',
             favicon: path.resolve(__dirname, '../assets/images/favicon.ico'),
             minify: {
                 removeAttributeQuotes: true,//移除属性的双引号(有的属性有逗号，不能完全删除)
@@ -110,22 +117,8 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name].css',
-            chunkFilename: 'css/[id][fullhash:8].css',//异步加载的样式文件命名
+            chunkFilename: 'css/[id][contenthash:8].css',//异步加载的样式文件命名
             ignoreOrder: true //禁止顺序检查
         }),
-        new webpack.ProvidePlugin({
-            _: 'lodash'//给每个模块注入lodash,输出_
-        }),
-        new CopyPlugin({
-            patterns:[
-                {
-                    from: path.resolve(__dirname, '../project.config/reqrcode.js'),
-                    to: path.resolve(__dirname, '../dist'),
-                }
-            ]
-        }),
-        // new webpack.DllReferencePlugin({
-        //     manifest: path.resolve(__dirname, '../dist/dll/manifest.json')
-        // }),
     ]
 }

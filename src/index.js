@@ -1,31 +1,38 @@
-import React, { useState, useEffect, Component } from 'react'
+import React from 'react'
 import { render } from 'react-dom'
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Addrw from '@/src/common/Addrw'
-import demand from '@/src/common/DemandLoadComponent'
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import rootSaga from './model'
+import { Provider } from 'react-redux'
+import ProjectRouter from './router'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-const ProjectRouter = () => {
-    const Home = demand(() => import('./pages/Home'))
-    const TextContext = demand(() => import('./pages/TestContext'))
-    const UseReducer = demand(() => import('./pages/UseReducer'))
-    const DataManager = demand(() => import('./pages/DataManager'))
-    const Css = demand(() => import('./pages/Css'))
-    const Antwocode = demand(() => import('./pages/Antwocode'))
-    const ReduxSagaTheory = demand(() => import('./pages/ReduxSagaTheory'))
+const sagaMiddleware = createSagaMiddleware() // 创建中间件
+const store = createStore(
+    (state = {}, action) => {
+        if (action.type == 'success') {
+            return { ...state, ...action.payload }
+        }
+    },
+    applyMiddleware(sagaMiddleware) // 将中间件放入applyMiddleware
+)
+sagaMiddleware.run(rootSaga)
 
+const App = props => {
     return (
-        <>
-            <Route path='/' exact component={Home} />
-            <Route path='/context' exact component={TextContext} />
-            <Route path='/useReducer' exact component={UseReducer} />
-            <Route path='/dataManager' exact component={DataManager} />
-            <Route path='/css' exact component={Css} />
-            <Route path='/antwocode' exact component={Antwocode} />
-            <Route path='/reduxsaga' exact component={ReduxSagaTheory} />
-        </>
+        <Router>
+            <Switch>
+                {/* <Route exact path='/login' component={Login} />
+                <Route exact path='/register' component={Register} /> */}
+                <Route path='/' component={ProjectRouter} />
+            </Switch>
+        </Router>
     )
 }
 
-const AddRW = Addrw(ProjectRouter)
-
-render(<AddRW />, document.getElementById('root'))
+render(
+    <Provider store={store}>
+        <App />,
+    </Provider>,
+    document.getElementById('root')
+)
